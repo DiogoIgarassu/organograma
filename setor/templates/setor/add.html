@@ -1,0 +1,176 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de Organograma de Igarassu" />
+    <title>IgaraOrg</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/pure-min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="icon" href="{% static 'img/brasil.ico' %}" type="image/x-icon">
+</head>
+<body>
+
+<script>
+function handleInput(e) {
+   var ss = e.target.selectionStart;
+   var se = e.target.selectionEnd;
+   e.target.value = e.target.value.toUpperCase();
+   e.target.selectionStart = ss;
+   e.target.selectionEnd = se;
+}
+</script>
+
+
+<div class="header">
+
+    <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
+        <h1 class="pure-menu-heading">ORGANOGRAMA DE IGARASSU</h1>
+
+        <ul>
+            {% if user.is_authenticated %}
+            <li class="pure-menu-selected"><a href="#">Início</a></li>
+            <li><a href="#">Listas</a></li>
+            <li><a href="#}">Relatórios</a></li>
+            <li><a href="">( {{ user }} ) </a></li>
+            <li><a href="#">Sair</a></li>
+            {% else %}
+            <li><a href="#">Entrar</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<div class="content">
+
+
+    <br><br>
+
+
+
+
+<h2 style="border: 20px">* Registrar novo setor</h2>
+<div class="container">
+<form class="needs-validation" method="post" novalidate>
+{% csrf_token %}
+
+
+
+    <div class="form-row">
+    <div class="col-sm-4">
+      <label for="validationCustom04">Nome do Setor</label>
+      <input type="text" class="form-control" name="nome" id="validationCustom04" value="" required>
+      <div class="invalid-feedback">
+        Por favor informe o nome do setor.
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <label for="validationCustom05">Responsável pelo Setor</label>
+      <input type="text" class="form-control" name="responsavel" id="validationCustom05" value="" >
+    </div>
+        <div class="col-sm-2 sm-6">
+      <label for="validationCustom10">Contato</label>
+      <input type="text" class="form-control" name="telefone" id="validationCustom10" value="" >
+      <div class="invalid-feedback">
+        Por favor informe o contato.
+      </div>
+    </div>
+  </div>
+
+    <div class="form-row">
+       <div class="col-sm-10">
+          <label for="validationCustom31">Descrição</label>
+           <textarea type="text" oninput="handleInput(event)" class="form-control" name="descricao" id="validationCustom31" rows="3"  ></textarea>
+          <div class="invalid-feedback">
+            Please provide a valid zip.
+          </div>
+       </div>
+    </div>
+<div class="form-row">
+    <div class="col-sm-4 sm-12">
+      <label for="validationCustom34">Setor Imediato</label>
+      <select class="form-control" name="setor_imediato" id="validationCustom34">
+        <option value="{{ dados.setor_imediato }}" hidden>{{ dados.setor_imediato }}</option>
+          {% for stat in dados %}
+          <option value="{{ stat.id }}" >{{ stat }}</option>
+          {% endfor %}
+          </select>
+      <div class="invalid-feedback">
+        Por favor informe o Setor Imediato.
+      </div>
+    </div>
+    <div class="col-sm-8 sm-12">
+      <label for="validationCustom35">Secretria Imediata</label>
+      <select class="form-control" name="secretaria_imediata" id="validationCustom35">
+        <option value="{{ dados.secretaria_imediata }}" hidden>{{ dados.secretaria_imediata }}</option>
+          {% for stat in dados %}
+          <option value="{{ stat.id }}" >{{ stat }}</option>
+          {% endfor %}
+          </select>
+      <div class="invalid-feedback">
+        Por favor informe a secretaria imediata.
+      </div>
+    </div>
+  </div>
+    <hr>
+
+
+
+
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+      <label class="form-check-label" for="invalidCheck">
+        Eu confirmo a veracidades destas informações
+      </label>
+      <div class="invalid-feedback">
+        Você deve confirmar a verecidade destes dados.
+      </div>
+    </div>
+  </div>
+        <center>
+      <a href="#" class="btn btn-success">Inicio</a>
+      <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+      <a href="#" class="btn btn-danger">Voltar</a></center>
+<br>
+</form>
+</div>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+
+ <div class="text-center p-3 text-white" style="background-color: #399433;">
+    © 2020 Copyright: SASI - Sistema desenvolvido pela Dexter Development
+    <br>
+    <a class="text-white" href="#">(by Diogo Igarassu)</a>
+  </div>
+
+
+</div>
+<script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
